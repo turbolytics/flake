@@ -10,7 +10,24 @@ Features
 - Scalable: Suitable for distributed systems with high ID generation rates.
 
 
-+-----------------------+-------------+-------------+----------------+-------------+
+```
+|-----------------------+-------------+-------------+----------------+-------------+
 | 48 bits (Timestamp)   | 16 bits (Region ID) | 16 bits (Machine ID) | 32 bits (Sequence) | 16 bits (Randomness) |
 +-----------------------+-------------+-------------+----------------+-------------+
+```
+
+
+## 128-bit Flake ID Structure
+
+The 128-bit Flake ID is composed of the following components:
+
+| Bits | Field Name   | Description                                                       |
+|------|--------------|-------------------------------------------------------------------|
+| 48   | Timestamp    | Milliseconds since a custom epoch. Provides ample range for time representation. |
+| 16   | Region ID    | Identifies the region or data center.                             |
+| 16   | Machine ID   | Identifies the specific machine or node.                          |
+| 32   | Sequence     | Allows for a high number of unique IDs per millisecond per machine. |
+| 16   | Randomness   | Adds additional uniqueness and helps mitigate potential collisions. |
+| **128** | **Total**   |                                                                 |
+
 

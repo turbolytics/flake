@@ -1,0 +1,34 @@
+name: Go Build, Lint, and Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.21'  # Update with your Go version if needed
+
+      - name: Install make
+        run: sudo apt-get install make  # Install make if not available by default
+
+      - name: Build
+        run: go build ./...
+
+      - name: Lint
+        run: make lint
+
+      - name: Test
+        run: make test

@@ -10,6 +10,10 @@ type Handlers struct {
 	FlakeGen *flake.Generator
 }
 
+type FlakeIDResponse struct {
+	ID string `json:"id"`
+}
+
 // GenerateFlakeIDHandler is an HTTP handler function to generate Flake IDs
 func (h *Handlers) GenerateFlakeIDHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
@@ -24,8 +28,12 @@ func (h *Handlers) GenerateFlakeIDHandler(w http.ResponseWriter, r *http.Request
 		return
 	}
 
+	p := FlakeIDResponse{
+		ID: id.String(),
+	}
+
 	// Convert the FlakeID struct to JSON
-	response, err := json.Marshal(id)
+	response, err := json.Marshal(p)
 	if err != nil {
 		http.Error(w, "Error encoding JSON", http.StatusInternalServerError)
 		return

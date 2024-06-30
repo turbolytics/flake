@@ -8,9 +8,8 @@ import (
 
 func init() {
 	var (
-		regionID  uint16
-		machineID uint16
-		count     int
+		workerID uint64
+		count    int
 	)
 
 	var generateCmd = &cobra.Command{
@@ -19,8 +18,7 @@ func init() {
 		Long:  `Generates one or more 128-bit Flake IDs using the specified region and machine IDs.`,
 		Run: func(cmd *cobra.Command, args []string) {
 			fg, err := flake.NewGenerator(
-				flake.GeneratorWithRegionID(regionID),
-				flake.GeneratorWithMachineID(machineID),
+				flake.GeneratorWithWorkerID(workerID),
 			)
 			if err != nil {
 				panic(err)
@@ -36,8 +34,7 @@ func init() {
 	}
 
 	// Add flags for the generate command
-	generateCmd.Flags().Uint16VarP(&regionID, "region", "r", 1, "Region ID")
-	generateCmd.Flags().Uint16VarP(&machineID, "machine", "m", 1, "Machine ID")
+	generateCmd.Flags().Uint64VarP(&workerID, "worker", "r", 1, "Worker ID")
 	generateCmd.Flags().IntVarP(&count, "count", "c", 1, "Number of IDs to generate")
 
 	// Add generate command to the root command

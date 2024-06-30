@@ -1,8 +1,6 @@
 package flake
 
 import (
-	"crypto/rand"
-	"encoding/binary"
 	"errors"
 	"fmt"
 	"strconv"
@@ -11,43 +9,13 @@ import (
 	"time"
 )
 
-// ID structure
-type ID struct {
-	Timestamp  uint64 // 48 bits
-	RegionID   uint16 // 16 bits
-	MachineID  uint16 // 16 bits
-	Sequence   uint32 // 32 bits
-	Randomness uint16 // 16 bits
-}
-
-func GeneratorWithRegionID(regionID uint16) GeneratorOption {
-	return func(fg *Generator) error {
-		fg.regionID = &regionID
-		return nil
-	}
-}
-
-func GeneratorWithMachineID(machineID uint16) GeneratorOption {
-	return func(fg *Generator) error {
-		fg.machineID = &machineID
-		return nil
-	}
-}
-
-type GeneratorOption func(*Generator) error
-
-// Generator holds state for generating IDs
-type Generator struct {
-	regionID  *uint16
-	machineID *uint16
-	sequence  uint32
-	lastTime  uint64
-	mutex     sync.Mutex
-}
-
 // NewGenerator initializes a Generator
 func NewGenerator(opts ...GeneratorOption) (*Generator, error) {
-	fg := &Generator{}
+	fg := &Generator{
+		nowFn: func() time.Time {
+			return time.Now().UTC()
+		},
+	}
 
 	// Apply options
 	for _, opt := range opts {
@@ -56,11 +24,55 @@ func NewGenerator(opts ...GeneratorOption) (*Generator, error) {
 		}
 	}
 
-	if fg.regionID == nil || fg.machineID == nil {
-		return nil, errors.New("regionID and machineID must be provided")
+	if fg.workerID == nil {
+		return nil, errors.New("workerID must be provided")
 	}
 
 	return fg, nil
+}
+
+// max48Bits is the maximum value for a 48-bit unsigned integer
+const max48Bits = (1 << 48) - 1
+
+// IsWithin48BitsRange checks if the given uint64 value fits within 48 bits
+func IsWithin48BitsRange(value uint64) bool {
+	return value <= max48Bits
+}
+
+// ID structure
+type ID struct {
+	Timestamp uint64 // 64 bits
+	WorkerID  uint64 // 48 bits used
+	Sequence  uint16 // 16 bits
+}
+
+func GeneratorWithWorkerID(workerID uint64) GeneratorOption {
+	return func(fg *Generator) error {
+		if !IsWithin48BitsRange(workerID) {
+			return errors.New("workerID must fit within 48 bits")
+		}
+		fg.workerID = &workerID
+		return nil
+	}
+}
+
+// GeneratorWithNowFn sets a custom now function in Generator
+func GeneratorWithNowFn(nowFn func() time.Time) GeneratorOption {
+	return func(fg *Generator) error {
+		fg.nowFn = nowFn
+		return nil
+	}
+}
+
+type GeneratorOption func(*Generator) error
+
+// Generator holds state for generating IDs
+type Generator struct {
+	workerID *uint64
+	sequence uint16
+	lastTime uint64
+	nowFn    func() time.Time
+	mutex    sync.Mutex
 }
 
 // GenerateFlakeID creates a new ID
@@ -68,7 +80,7 @@ func (fg *Generator) GenerateFlakeID() (ID, error) {
 	fg.mutex.Lock()
 	defer fg.mutex.Unlock()
 
-	now := uint64(time.Now().UnixMilli()) & 0xFFFFFFFFFFFF // 48 bits timestamp
+	now := uint64(fg.nowFn().UnixMilli())
 
 	// Handle clock going backwards
 	if now < fg.lastTime {
@@ -81,60 +93,49 @@ func (fg *Generator) GenerateFlakeID() (ID, error) {
 		fg.lastTime = now
 	}
 
-	randomness := uint16(0)
-	binary.Read(rand.Reader, binary.BigEndian, &randomness)
-
 	return ID{
-		Timestamp:  now,
-		RegionID:   *fg.regionID,
-		MachineID:  *fg.machineID,
-		Sequence:   fg.sequence,
-		Randomness: randomness,
+		Timestamp: now,
+		WorkerID:  *fg.workerID,
+		Sequence:  fg.sequence,
 	}, nil
 }
 
 // String representation for the ID
 func (f ID) String() string {
-	return fmt.Sprintf("%012X-%04X-%04X-%08X-%04X", f.Timestamp, f.RegionID, f.MachineID, f.Sequence, f.Randomness)
+	return fmt.Sprintf("%016X-%012X-%04X", f.Timestamp, f.WorkerID, f.Sequence)
 }
 
-// NewIDFromString parses a Flake ID string into a FlakeID struct
-func NewIDFromString(id string) (ID, error) {
-	parts := strings.Split(id, "-")
-	if len(parts) != 5 {
-		return ID{}, fmt.Errorf("invalid ID format")
+func NewIDFromStr(idStr string) (ID, error) {
+	var id ID
+
+	// Split the string by the dashes
+	parts := strings.Split(idStr, "-")
+	if len(parts) != 3 {
+		return id, fmt.Errorf("invalid ID format: %s", idStr)
 	}
 
+	// Parse each part
 	timestamp, err := strconv.ParseUint(parts[0], 16, 64)
 	if err != nil {
-		return ID{}, fmt.Errorf("invalid timestamp: %w", err)
+		return id, fmt.Errorf("invalid Timestamp: %s", err)
 	}
 
-	regionID, err := strconv.ParseUint(parts[1], 16, 16)
+	workerID, err := strconv.ParseUint(parts[1], 16, 64)
 	if err != nil {
-		return ID{}, fmt.Errorf("invalid region ID: %w", err)
+		return id, fmt.Errorf("invalid WorkerID: %s", err)
 	}
 
-	machineID, err := strconv.ParseUint(parts[2], 16, 16)
+	sequence, err := strconv.ParseUint(parts[2], 16, 16)
 	if err != nil {
-		return ID{}, fmt.Errorf("invalid machine ID: %w", err)
+		return id, fmt.Errorf("invalid Sequence: %s", err)
 	}
 
-	sequence, err := strconv.ParseUint(parts[3], 16, 32)
-	if err != nil {
-		return ID{}, fmt.Errorf("invalid sequence: %w", err)
+	// Construct the ID
+	id = ID{
+		Timestamp: timestamp,
+		WorkerID:  workerID,
+		Sequence:  uint16(sequence),
 	}
 
-	randomness, err := strconv.ParseUint(parts[4], 16, 16)
-	if err != nil {
-		return ID{}, fmt.Errorf("invalid randomness: %w", err)
-	}
-
-	return ID{
-		Timestamp:  timestamp,
-		RegionID:   uint16(regionID),
-		MachineID:  uint16(machineID),
-		Sequence:   uint32(sequence),
-		Randomness: uint16(randomness),
-	}, nil
+	return id, nil
 }

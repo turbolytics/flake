@@ -7,13 +7,13 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 func init() {
 	var (
-		regionID  uint16
-		machineID uint16
-		port      int
+		workerID uint64
+		port     int
 	)
 
 	var httpCmd = &cobra.Command{
@@ -21,8 +21,7 @@ func init() {
 		Short: "Starts a Flake Generator HTTP server",
 		Run: func(cmd *cobra.Command, args []string) {
 			fg, err := flake.NewGenerator(
-				flake.GeneratorWithRegionID(regionID),
-				flake.GeneratorWithMachineID(machineID),
+				flake.GeneratorWithWorkerID(workerID),
 			)
 
 			if err != nil {
@@ -33,15 +32,22 @@ func init() {
 				FlakeGen: fg,
 			}
 
-			http.HandleFunc("/generate", handlers.GenerateFlakeIDHandler)
+			mux := http.NewServeMux()
+			mux.HandleFunc("/generate", handlers.GenerateFlakeIDHandler)
+
+			server := &http.Server{
+				Addr:         ":" + strconv.Itoa(port),
+				Handler:      mux,
+				ReadTimeout:  1 * time.Second,
+				WriteTimeout: 10 * time.Second,
+			}
 
 			log.Printf("Handlers listening on port %d...", port)
-			log.Fatal(http.ListenAndServe(":"+strconv.Itoa(port), nil))
+			log.Fatal(server.ListenAndServe())
 		},
 	}
 
-	httpCmd.Flags().Uint16VarP(&regionID, "region", "r", 1, "Region ID")
-	httpCmd.Flags().Uint16VarP(&machineID, "machine", "m", 1, "Machine ID")
+	httpCmd.Flags().Uint64VarP(&workerID, "worker", "r", 1, "Worker ID")
 	httpCmd.Flags().IntVarP(&port, "port", "p", 8080, "Port for HTTP server (default is 8080)")
 
 	rootCmd.AddCommand(httpCmd)

@@ -3,6 +3,7 @@ package flake
 import (
 	"crypto/rand"
 	"encoding/binary"
+	"errors"
 	"fmt"
 	"strconv"
 	"strings"
@@ -19,21 +20,47 @@ type ID struct {
 	Randomness uint16 // 16 bits
 }
 
+func GeneratorWithRegionID(regionID uint16) GeneratorOption {
+	return func(fg *Generator) error {
+		fg.regionID = &regionID
+		return nil
+	}
+}
+
+func GeneratorWithMachineID(machineID uint16) GeneratorOption {
+	return func(fg *Generator) error {
+		fg.machineID = &machineID
+		return nil
+	}
+}
+
+type GeneratorOption func(*Generator) error
+
 // Generator holds state for generating IDs
 type Generator struct {
-	regionID  uint16
-	machineID uint16
+	regionID  *uint16
+	machineID *uint16
 	sequence  uint32
 	lastTime  uint64
 	mutex     sync.Mutex
 }
 
 // NewGenerator initializes a Generator
-func NewGenerator(regionID, machineID uint16) *Generator {
-	return &Generator{
-		regionID:  regionID,
-		machineID: machineID,
+func NewGenerator(opts ...GeneratorOption) (*Generator, error) {
+	fg := &Generator{}
+
+	// Apply options
+	for _, opt := range opts {
+		if err := opt(fg); err != nil {
+			return nil, err
+		}
 	}
+
+	if fg.regionID == nil || fg.machineID == nil {
+		return nil, errors.New("regionID and machineID must be provided")
+	}
+
+	return fg, nil
 }
 
 // GenerateFlakeID creates a new ID
@@ -45,13 +72,9 @@ func (fg *Generator) GenerateFlakeID() (ID, error) {
 
 	// Handle clock going backwards
 	if now < fg.lastTime {
-		// Wait until the clock catches up
-		waitTime := fg.lastTime - now
-		time.Sleep(time.Duration(waitTime) * time.Millisecond)
-		now = uint64(time.Now().UnixMilli()) & 0xFFFFFFFFFFFF
-	}
-
-	if now == fg.lastTime {
+		now = fg.lastTime
+		fg.sequence++
+	} else if now == fg.lastTime {
 		fg.sequence++
 	} else {
 		fg.sequence = 0
@@ -63,8 +86,8 @@ func (fg *Generator) GenerateFlakeID() (ID, error) {
 
 	return ID{
 		Timestamp:  now,
-		RegionID:   fg.regionID,
-		MachineID:  fg.machineID,
+		RegionID:   *fg.regionID,
+		MachineID:  *fg.machineID,
 		Sequence:   fg.sequence,
 		Randomness: randomness,
 	}, nil

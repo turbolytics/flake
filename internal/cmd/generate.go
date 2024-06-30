@@ -6,29 +6,35 @@ import (
 	"github.com/turbolytics/flake/pkg/flake"
 )
 
-var (
-	regionID  uint16
-	machineID uint16
-	count     int
-)
+func init() {
+	var (
+		regionID  uint16
+		machineID uint16
+		count     int
+	)
 
-var generateCmd = &cobra.Command{
-	Use:   "generate",
-	Short: "Generate a new 128-bit Flake ID",
-	Long:  `Generates one or more 128-bit Flake IDs using the specified region and machine IDs.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fg := flake.NewGenerator(regionID, machineID)
-		for i := 0; i < count; i++ {
-			id, err := fg.GenerateFlakeID()
+	var generateCmd = &cobra.Command{
+		Use:   "generate",
+		Short: "Generate a new 128-bit Flake ID",
+		Long:  `Generates one or more 128-bit Flake IDs using the specified region and machine IDs.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			fg, err := flake.NewGenerator(
+				flake.GeneratorWithRegionID(regionID),
+				flake.GeneratorWithMachineID(machineID),
+			)
 			if err != nil {
 				panic(err)
 			}
-			fmt.Println(id.String())
-		}
-	},
-}
+			for i := 0; i < count; i++ {
+				id, err := fg.GenerateFlakeID()
+				if err != nil {
+					panic(err)
+				}
+				fmt.Println(id.String())
+			}
+		},
+	}
 
-func init() {
 	// Add flags for the generate command
 	generateCmd.Flags().Uint16VarP(&regionID, "region", "r", 1, "Region ID")
 	generateCmd.Flags().Uint16VarP(&machineID, "machine", "m", 1, "Machine ID")

@@ -31,3 +31,827 @@ The 128-bit Flake ID is composed of the following components:
 | **128** | **Total**   |                                                                 |
 
 
+# Usage 
+
+## Generate Flake ID from CLI
+
+Certainly! Below is a Markdown-formatted README with usage examples based on the changes in the pull request for the Flake project:
+
+---
+
+# Flake
+
+Flake is a Go library and CLI tool for generating 128-bit globally unique identifiers (GUIDs) based on Twitter's Snowflake IDs.
+
+## Installation
+
+To install Flake, use `go get`:
+
+```bash
+go get github.com/turbolytics/flake
+```
+
+## Usage
+
+### CLI Usage
+
+Flake CLI provides commands to generate Flake IDs and manage configurations.
+
+#### Generate Command
+
+Generate one or more Flake IDs using the CLI.
+
+```bash
+flake generate --count 5
+```
+
+Options:
+- `--count`: Number of IDs to generate (default is 1)
+
+Example output:
+```
+Generated Flake ID: 000001AD5EF69192-0001-0001-00000000-0A37
+Generated Flake ID: 000001AD5EF69193-0001-0001-00000000-0A38
+Generated Flake ID: 000001AD5EF69194-0001-0001-00000000-0A39
+Generated Flake ID: 000001AD5EF69195-0001-0001-00000000-0A3A
+Generated Flake ID: 000001AD5EF69196-0001-0001-00000000-0A3B
+```
+
+### Library Usage
+
+You can also use Flake as a library in your Go projects.
+
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+
+	"github.com/turbolytics/flake"
+)
+
+func main() {
+	// Initialize Flake Generator
+	fg := flake.NewFlakeGenerator(1, 1) // Replace with your region and machine IDs
+
+	// Generate a Flake ID
+	id := fg.GenerateFlakeID()
+	fmt.Println("Generated Flake ID:", id.String())
+}
+```
+
+## Configuration
+
+Flake can be configured using environment variables:
+
+- `FLAKE_REGION_ID`: Region ID (default: 1)
+- `FLAKE_MACHINE_ID`: Machine ID (default: 1)
+- `FLAKE_LOG_ENABLED`: Enable logging (default: false)
+
+Example:
+```bash
+export FLAKE_REGION_ID=2
+export FLAKE_MACHINE_ID=3
+export FLAKE_LOG_ENABLED=true
+```
+
+## Contributing
+
+Contributions are welcome! Please fork the repository and submit pull requests to contribute.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+This Markdown README provides a structured overview of Flake, including CLI usage examples, library integration, configuration options, and guidance for contributing. Adjust the commands, examples, and details as per the specifics of your project and the changes made in your pull request.Certainly! Below is a Markdown-formatted README with usage examples based on the changes in the pull request for the Flake project:
+
+---
+
+# Flake
+
+Flake is a Go library and CLI tool for generating 128-bit globally unique identifiers (GUIDs) based on Twitter's Snowflake IDs.
+
+## Installation
+
+To install Flake, use `go get`:
+
+```bash
+go get github.com/turbolytics/flake
+```
+
+## Usage
+
+### CLI Usage
+
+Flake CLI provides commands to generate Flake IDs and manage configurations.
+
+#### Generate Command
+
+Generate one or more Flake IDs using the CLI.
+
+```bash
+flake generate --count 5
+```
+
+Options:
+- `--count`: Number of IDs to generate (default is 1)
+
+Example output:
+```
+Generated Flake ID: 000001AD5EF69192-0001-0001-00000000-0A37
+Generated Flake ID: 000001AD5EF69193-0001-0001-00000000-0A38
+Generated Flake ID: 000001AD5EF69194-0001-0001-00000000-0A39
+Generated Flake ID: 000001AD5EF69195-0001-0001-00000000-0A3A
+Generated Flake ID: 000001AD5EF69196-0001-0001-00000000-0A3B
+```
+
+### Library Usage
+
+You can also use Flake as a library in your Go projects.
+
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+
+	"github.com/turbolytics/flake"
+)
+
+func main() {
+	// Initialize Flake Generator
+	fg := flake.NewFlakeGenerator(1, 1) // Replace with your region and machine IDs
+
+	// Generate a Flake ID
+	id := fg.GenerateFlakeID()
+	fmt.Println("Generated Flake ID:", id.String())
+}
+```
+
+## Configuration
+
+Flake can be configured using environment variables:
+
+- `FLAKE_REGION_ID`: Region ID (default: 1)
+- `FLAKE_MACHINE_ID`: Machine ID (default: 1)
+- `FLAKE_LOG_ENABLED`: Enable logging (default: false)
+
+Example:
+```bash
+export FLAKE_REGION_ID=2
+export FLAKE_MACHINE_ID=3
+export FLAKE_LOG_ENABLED=true
+```
+
+## Contributing
+
+Contributions are welcome! Please fork the repository and submit pull requests to contribute.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+This Markdown README provides a structured overview of Flake, including CLI usage examples, library integration, configuration options, and guidance for contributing. Adjust the commands, examples, and details as per the specifics of your project and the changes made in your pull request.Certainly! Below is a Markdown-formatted README with usage examples based on the changes in the pull request for the Flake project:
+
+---
+
+# Flake
+
+Flake is a Go library and CLI tool for generating 128-bit globally unique identifiers (GUIDs) based on Twitter's Snowflake IDs.
+
+## Installation
+
+To install Flake, use `go get`:
+
+```bash
+go get github.com/turbolytics/flake
+```
+
+## Usage
+
+### CLI Usage
+
+Flake CLI provides commands to generate Flake IDs and manage configurations.
+
+#### Generate Command
+
+Generate one or more Flake IDs using the CLI.
+
+```bash
+flake generate --count 5
+```
+
+Options:
+- `--count`: Number of IDs to generate (default is 1)
+
+Example output:
+```
+Generated Flake ID: 000001AD5EF69192-0001-0001-00000000-0A37
+Generated Flake ID: 000001AD5EF69193-0001-0001-00000000-0A38
+Generated Flake ID: 000001AD5EF69194-0001-0001-00000000-0A39
+Generated Flake ID: 000001AD5EF69195-0001-0001-00000000-0A3A
+Generated Flake ID: 000001AD5EF69196-0001-0001-00000000-0A3B
+```
+
+### Library Usage
+
+You can also use Flake as a library in your Go projects.
+
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+
+	"github.com/turbolytics/flake"
+)
+
+func main() {
+	// Initialize Flake Generator
+	fg := flake.NewFlakeGenerator(1, 1) // Replace with your region and machine IDs
+
+	// Generate a Flake ID
+	id := fg.GenerateFlakeID()
+	fmt.Println("Generated Flake ID:", id.String())
+}
+```
+
+## Configuration
+
+Flake can be configured using environment variables:
+
+- `FLAKE_REGION_ID`: Region ID (default: 1)
+- `FLAKE_MACHINE_ID`: Machine ID (default: 1)
+- `FLAKE_LOG_ENABLED`: Enable logging (default: false)
+
+Example:
+```bash
+export FLAKE_REGION_ID=2
+export FLAKE_MACHINE_ID=3
+export FLAKE_LOG_ENABLED=true
+```
+
+## Contributing
+
+Contributions are welcome! Please fork the repository and submit pull requests to contribute.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+This Markdown README provides a structured overview of Flake, including CLI usage examples, library integration, configuration options, and guidance for contributing. Adjust the commands, examples, and details as per the specifics of your project and the changes made in your pull request.Certainly! Below is a Markdown-formatted README with usage examples based on the changes in the pull request for the Flake project:
+
+---
+
+# Flake
+
+Flake is a Go library and CLI tool for generating 128-bit globally unique identifiers (GUIDs) based on Twitter's Snowflake IDs.
+
+## Installation
+
+To install Flake, use `go get`:
+
+```bash
+go get github.com/turbolytics/flake
+```
+
+## Usage
+
+### CLI Usage
+
+Flake CLI provides commands to generate Flake IDs and manage configurations.
+
+#### Generate Command
+
+Generate one or more Flake IDs using the CLI.
+
+```bash
+flake generate --count 5
+```
+
+Options:
+- `--count`: Number of IDs to generate (default is 1)
+
+Example output:
+```
+Generated Flake ID: 000001AD5EF69192-0001-0001-00000000-0A37
+Generated Flake ID: 000001AD5EF69193-0001-0001-00000000-0A38
+Generated Flake ID: 000001AD5EF69194-0001-0001-00000000-0A39
+Generated Flake ID: 000001AD5EF69195-0001-0001-00000000-0A3A
+Generated Flake ID: 000001AD5EF69196-0001-0001-00000000-0A3B
+```
+
+### Library Usage
+
+You can also use Flake as a library in your Go projects.
+
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+
+	"github.com/turbolytics/flake"
+)
+
+func main() {
+	// Initialize Flake Generator
+	fg := flake.NewFlakeGenerator(1, 1) // Replace with your region and machine IDs
+
+	// Generate a Flake ID
+	id := fg.GenerateFlakeID()
+	fmt.Println("Generated Flake ID:", id.String())
+}
+```
+
+## Configuration
+
+Flake can be configured using environment variables:
+
+- `FLAKE_REGION_ID`: Region ID (default: 1)
+- `FLAKE_MACHINE_ID`: Machine ID (default: 1)
+- `FLAKE_LOG_ENABLED`: Enable logging (default: false)
+
+Example:
+```bash
+export FLAKE_REGION_ID=2
+export FLAKE_MACHINE_ID=3
+export FLAKE_LOG_ENABLED=true
+```
+
+## Contributing
+
+Contributions are welcome! Please fork the repository and submit pull requests to contribute.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+This Markdown README provides a structured overview of Flake, including CLI usage examples, library integration, configuration options, and guidance for contributing. Adjust the commands, examples, and details as per the specifics of your project and the changes made in your pull request.Certainly! Below is a Markdown-formatted README with usage examples based on the changes in the pull request for the Flake project:
+
+---
+
+# Flake
+
+Flake is a Go library and CLI tool for generating 128-bit globally unique identifiers (GUIDs) based on Twitter's Snowflake IDs.
+
+## Installation
+
+To install Flake, use `go get`:
+
+```bash
+go get github.com/turbolytics/flake
+```
+
+## Usage
+
+### CLI Usage
+
+Flake CLI provides commands to generate Flake IDs and manage configurations.
+
+#### Generate Command
+
+Generate one or more Flake IDs using the CLI.
+
+```bash
+flake generate --count 5
+```
+
+Options:
+- `--count`: Number of IDs to generate (default is 1)
+
+Example output:
+```
+Generated Flake ID: 000001AD5EF69192-0001-0001-00000000-0A37
+Generated Flake ID: 000001AD5EF69193-0001-0001-00000000-0A38
+Generated Flake ID: 000001AD5EF69194-0001-0001-00000000-0A39
+Generated Flake ID: 000001AD5EF69195-0001-0001-00000000-0A3A
+Generated Flake ID: 000001AD5EF69196-0001-0001-00000000-0A3B
+```
+
+### Library Usage
+
+You can also use Flake as a library in your Go projects.
+
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+
+	"github.com/turbolytics/flake"
+)
+
+func main() {
+	// Initialize Flake Generator
+	fg := flake.NewFlakeGenerator(1, 1) // Replace with your region and machine IDs
+
+	// Generate a Flake ID
+	id := fg.GenerateFlakeID()
+	fmt.Println("Generated Flake ID:", id.String())
+}
+```
+
+## Configuration
+
+Flake can be configured using environment variables:
+
+- `FLAKE_REGION_ID`: Region ID (default: 1)
+- `FLAKE_MACHINE_ID`: Machine ID (default: 1)
+- `FLAKE_LOG_ENABLED`: Enable logging (default: false)
+
+Example:
+```bash
+export FLAKE_REGION_ID=2
+export FLAKE_MACHINE_ID=3
+export FLAKE_LOG_ENABLED=true
+```
+
+## Contributing
+
+Contributions are welcome! Please fork the repository and submit pull requests to contribute.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+This Markdown README provides a structured overview of Flake, including CLI usage examples, library integration, configuration options, and guidance for contributing. Adjust the commands, examples, and details as per the specifics of your project and the changes made in your pull request.Certainly! Below is a Markdown-formatted README with usage examples based on the changes in the pull request for the Flake project:
+
+---
+
+# Flake
+
+Flake is a Go library and CLI tool for generating 128-bit globally unique identifiers (GUIDs) based on Twitter's Snowflake IDs.
+
+## Installation
+
+To install Flake, use `go get`:
+
+```bash
+go get github.com/turbolytics/flake
+```
+
+## Usage
+
+### CLI Usage
+
+Flake CLI provides commands to generate Flake IDs and manage configurations.
+
+#### Generate Command
+
+Generate one or more Flake IDs using the CLI.
+
+```bash
+flake generate --count 5
+```
+
+Options:
+- `--count`: Number of IDs to generate (default is 1)
+
+Example output:
+```
+Generated Flake ID: 000001AD5EF69192-0001-0001-00000000-0A37
+Generated Flake ID: 000001AD5EF69193-0001-0001-00000000-0A38
+Generated Flake ID: 000001AD5EF69194-0001-0001-00000000-0A39
+Generated Flake ID: 000001AD5EF69195-0001-0001-00000000-0A3A
+Generated Flake ID: 000001AD5EF69196-0001-0001-00000000-0A3B
+```
+
+### Library Usage
+
+You can also use Flake as a library in your Go projects.
+
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+
+	"github.com/turbolytics/flake"
+)
+
+func main() {
+	// Initialize Flake Generator
+	fg := flake.NewFlakeGenerator(1, 1) // Replace with your region and machine IDs
+
+	// Generate a Flake ID
+	id := fg.GenerateFlakeID()
+	fmt.Println("Generated Flake ID:", id.String())
+}
+```
+
+## Configuration
+
+Flake can be configured using environment variables:
+
+- `FLAKE_REGION_ID`: Region ID (default: 1)
+- `FLAKE_MACHINE_ID`: Machine ID (default: 1)
+- `FLAKE_LOG_ENABLED`: Enable logging (default: false)
+
+Example:
+```bash
+export FLAKE_REGION_ID=2
+export FLAKE_MACHINE_ID=3
+export FLAKE_LOG_ENABLED=true
+```
+
+## Contributing
+
+Contributions are welcome! Please fork the repository and submit pull requests to contribute.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+This Markdown README provides a structured overview of Flake, including CLI usage examples, library integration, configuration options, and guidance for contributing. Adjust the commands, examples, and details as per the specifics of your project and the changes made in your pull request.Certainly! Below is a Markdown-formatted README with usage examples based on the changes in the pull request for the Flake project:
+
+---
+
+# Flake
+
+Flake is a Go library and CLI tool for generating 128-bit globally unique identifiers (GUIDs) based on Twitter's Snowflake IDs.
+
+## Installation
+
+To install Flake, use `go get`:
+
+```bash
+go get github.com/turbolytics/flake
+```
+
+## Usage
+
+### CLI Usage
+
+Flake CLI provides commands to generate Flake IDs and manage configurations.
+
+#### Generate Command
+
+Generate one or more Flake IDs using the CLI.
+
+```bash
+flake generate --count 5
+```
+
+Options:
+- `--count`: Number of IDs to generate (default is 1)
+
+Example output:
+```
+Generated Flake ID: 000001AD5EF69192-0001-0001-00000000-0A37
+Generated Flake ID: 000001AD5EF69193-0001-0001-00000000-0A38
+Generated Flake ID: 000001AD5EF69194-0001-0001-00000000-0A39
+Generated Flake ID: 000001AD5EF69195-0001-0001-00000000-0A3A
+Generated Flake ID: 000001AD5EF69196-0001-0001-00000000-0A3B
+```
+
+### Library Usage
+
+You can also use Flake as a library in your Go projects.
+
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+
+	"github.com/turbolytics/flake"
+)
+
+func main() {
+	// Initialize Flake Generator
+	fg := flake.NewFlakeGenerator(1, 1) // Replace with your region and machine IDs
+
+	// Generate a Flake ID
+	id := fg.GenerateFlakeID()
+	fmt.Println("Generated Flake ID:", id.String())
+}
+```
+
+## Configuration
+
+Flake can be configured using environment variables:
+
+- `FLAKE_REGION_ID`: Region ID (default: 1)
+- `FLAKE_MACHINE_ID`: Machine ID (default: 1)
+- `FLAKE_LOG_ENABLED`: Enable logging (default: false)
+
+Example:
+```bash
+export FLAKE_REGION_ID=2
+export FLAKE_MACHINE_ID=3
+export FLAKE_LOG_ENABLED=true
+```
+
+## Contributing
+
+Contributions are welcome! Please fork the repository and submit pull requests to contribute.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+This Markdown README provides a structured overview of Flake, including CLI usage examples, library integration, configuration options, and guidance for contributing. Adjust the commands, examples, and details as per the specifics of your project and the changes made in your pull request.Certainly! Below is a Markdown-formatted README with usage examples based on the changes in the pull request for the Flake project:
+
+---
+
+# Flake
+
+Flake is a Go library and CLI tool for generating 128-bit globally unique identifiers (GUIDs) based on Twitter's Snowflake IDs.
+
+## Installation
+
+To install Flake, use `go get`:
+
+```bash
+go get github.com/turbolytics/flake
+```
+
+## Usage
+
+### CLI Usage
+
+Flake CLI provides commands to generate Flake IDs and manage configurations.
+
+#### Generate Command
+
+Generate one or more Flake IDs using the CLI.
+
+```bash
+flake generate --count 5
+```
+
+Options:
+- `--count`: Number of IDs to generate (default is 1)
+
+Example output:
+```
+Generated Flake ID: 000001AD5EF69192-0001-0001-00000000-0A37
+Generated Flake ID: 000001AD5EF69193-0001-0001-00000000-0A38
+Generated Flake ID: 000001AD5EF69194-0001-0001-00000000-0A39
+Generated Flake ID: 000001AD5EF69195-0001-0001-00000000-0A3A
+Generated Flake ID: 000001AD5EF69196-0001-0001-00000000-0A3B
+```
+
+### Library Usage
+
+You can also use Flake as a library in your Go projects.
+
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+
+	"github.com/turbolytics/flake"
+)
+
+func main() {
+	// Initialize Flake Generator
+	fg := flake.NewFlakeGenerator(1, 1) // Replace with your region and machine IDs
+
+	// Generate a Flake ID
+	id := fg.GenerateFlakeID()
+	fmt.Println("Generated Flake ID:", id.String())
+}
+```
+
+## Configuration
+
+Flake can be configured using environment variables:
+
+- `FLAKE_REGION_ID`: Region ID (default: 1)
+- `FLAKE_MACHINE_ID`: Machine ID (default: 1)
+- `FLAKE_LOG_ENABLED`: Enable logging (default: false)
+
+Example:
+```bash
+export FLAKE_REGION_ID=2
+export FLAKE_MACHINE_ID=3
+export FLAKE_LOG_ENABLED=true
+```
+
+## Contributing
+
+Contributions are welcome! Please fork the repository and submit pull requests to contribute.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+This Markdown README provides a structured overview of Flake, including CLI usage examples, library integration, configuration options, and guidance for contributing. Adjust the commands, examples, and details as per the specifics of your project and the changes made in your pull request.Certainly! Below is a Markdown-formatted README with usage examples based on the changes in the pull request for the Flake project:
+
+---
+
+# Flake
+
+Flake is a Go library and CLI tool for generating 128-bit globally unique identifiers (GUIDs) based on Twitter's Snowflake IDs.
+
+## Installation
+
+To install Flake, use `go get`:
+
+```bash
+go get github.com/turbolytics/flake
+```
+
+## Usage
+
+### CLI Usage
+
+Flake CLI provides commands to generate Flake IDs and manage configurations.
+
+#### Generate Command
+
+Generate one or more Flake IDs using the CLI.
+
+```bash
+flake generate --count 5
+```
+
+Options:
+- `--count`: Number of IDs to generate (default is 1)
+
+Example output:
+```
+Generated Flake ID: 000001AD5EF69192-0001-0001-00000000-0A37
+Generated Flake ID: 000001AD5EF69193-0001-0001-00000000-0A38
+Generated Flake ID: 000001AD5EF69194-0001-0001-00000000-0A39
+Generated Flake ID: 000001AD5EF69195-0001-0001-00000000-0A3A
+Generated Flake ID: 000001AD5EF69196-0001-0001-00000000-0A3B
+```
+
+### Library Usage
+
+You can also use Flake as a library in your Go projects.
+
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+
+	"github.com/turbolytics/flake"
+)
+
+func main() {
+	// Initialize Flake Generator
+	fg := flake.NewFlakeGenerator(1, 1) // Replace with your region and machine IDs
+
+	// Generate a Flake ID
+	id := fg.GenerateFlakeID()
+	fmt.Println("Generated Flake ID:", id.String())
+}
+```
+
+## Configuration
+
+Flake can be configured using environment variables:
+
+- `FLAKE_REGION_ID`: Region ID (default: 1)
+- `FLAKE_MACHINE_ID`: Machine ID (default: 1)
+- `FLAKE_LOG_ENABLED`: Enable logging (default: false)
+
+Example:
+```bash
+export FLAKE_REGION_ID=2
+export FLAKE_MACHINE_ID=3
+export FLAKE_LOG_ENABLED=true
+```
+
+## Contributing
+
+Contributions are welcome! Please fork the repository and submit pull requests to contribute.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+This Markdown README provides a structured overview of Flake, including CLI usage examples, library integration, configuration options, and guidance for contributing. Adjust the commands, examples, and details as per the specifics of your project and the changes made in your pull request.

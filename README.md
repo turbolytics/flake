@@ -34,14 +34,14 @@ Features
 ## Contents
 
 - [Flake](#flake)
-- [Getting Started](#Getting Started)
-  - [Usage](#Usage)
-    - [Generating a Flake ID](#Generating a Flake ID)
-    - [Customizing the Worker ID](#Customizing the Worker ID)
-    - [Parsing a Flake ID](#Parsing a Flake ID)
-  - [Integrating with Your Application](#Integrating with Your Application)
-  - [Usage Example Webserver Command](#Usage Example Webserver Command)
-- [ID Overview](#ID Overview)
+- [Getting Started](#getting-started)
+  - [Usage](#usage)
+    - [Generating a Flake ID](#generating-a-flake-id)
+    - [Customizing the Worker ID](#customizing-the-worker-id)
+    - [Parsing a Flake ID](#parsing-a-flake-id)
+  - [Integrating with Your Application](#integrating-with-your-application)
+  - [Usage Example Webserver Command](#usage-example-webserver-command)
+- [ID Overview](#id-overview)
 
 
 ## Getting Started

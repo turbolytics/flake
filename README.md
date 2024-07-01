@@ -31,12 +31,18 @@ Features
 - **WorkerID**: Identifies the worker or node where the ID was generated. It uses 48 bits.
 - **Sequence**: A number that ensures uniqueness within the same millisecond and node. It occupies 16 bits.
 
+## Contents
 
-## Getting Started
+- [Flake](#flake)
+- [Getting Started](#Getting Started)
+  - [Usage](#Usage)
+    - [Generating a Flake ID](#Generating a Flake ID)
+    - [Customizing the Worker ID](#Customizing the Worker ID)
+    - [Parsing a Flake ID](#Parsing a Flake ID)
+  - [Integrating with Your Application](#Integrating with Your Application)
+  - [Usage Example Webserver Command](#Usage Example Webserver Command)
+- [ID Overview](#ID Overview)
 
-Here's a "Getting Started" section for the [turbolytics/flake](https://github.com/turbolytics/flake) repository, which guides users through installation, configuration, and basic usage of the Flake CLI and library.
-
----
 
 ## Getting Started
 
@@ -212,22 +218,6 @@ curl -X GET http://localhost:8080/generate
 }
 ```
 
-### Full Command Sequence
-
-1. **Start the server**:
-
-    ```sh
-    ./bin/flake http --port 8080
-    ```
-
-2. **Generate a Flake ID using `curl`**:
-
-    ```sh
-    curl -X GET http://localhost:8080/generate
-    ```
-
-**Note**: Ensure the port used in the `curl` command matches the port on which the server is running.
-
 ### Details of the Response
 
 - `id`: The string representation of the Flake ID.
@@ -237,36 +227,6 @@ curl -X GET http://localhost:8080/generate
     - `sequence`: The sequence number.
 
 This simple interaction demonstrates how you can generate unique Flake IDs via HTTP requests to the running webserver.
-
-
-### Testing
-
-To run tests for the `flake` package, execute:
-
-```sh
-make test
-```
-
-This will run all unit tests and ensure everything is functioning correctly.
-
-### Linting
-
-To lint the codebase and ensure it follows Go coding standards:
-
-```sh
-make lint
-```
-
-This uses `golint` to check the code quality.
-
-### Contribution
-
-### Additional Resources
-
-- **Documentation:** [GoDoc](https://pkg.go.dev/github.com/turbolytics/flake)
-- **Issue Tracker:** [GitHub Issues](https://github.com/turbolytics/flake/issues)
-
-Thank you for using Flake ID Generator! If you encounter any issues or have suggestions, feel free to open an issue or contribute to the project.
 
 ## ID Overview
 

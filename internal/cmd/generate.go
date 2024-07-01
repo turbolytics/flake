@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/turbolytics/flake/pkg/flake"
+	"time"
 )
 
 func init() {
@@ -28,7 +29,11 @@ func init() {
 				if err != nil {
 					panic(err)
 				}
-				fmt.Println(id.String())
+				fmt.Printf(
+					"id=%q timestamp=%q\n",
+					id.String(),
+					time.UnixMilli(int64(id.Timestamp)),
+				)
 			}
 		},
 	}

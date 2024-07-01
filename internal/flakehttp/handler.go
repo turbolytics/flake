@@ -6,12 +6,17 @@ import (
 	"net/http"
 )
 
+type Gen interface {
+	GenerateFlakeID() (flake.ID, error)
+}
+
 type Handlers struct {
-	FlakeGen *flake.Generator
+	FlakeGen Gen
 }
 
 type FlakeIDResponse struct {
-	ID string `json:"id"`
+	ID    string   `json:"id"`
+	Flake flake.ID `json:"flake"`
 }
 
 // GenerateFlakeIDHandler is an HTTP handler function to generate Flake IDs
@@ -29,7 +34,8 @@ func (h *Handlers) GenerateFlakeIDHandler(w http.ResponseWriter, r *http.Request
 	}
 
 	p := FlakeIDResponse{
-		ID: id.String(),
+		ID:    id.String(),
+		Flake: id,
 	}
 
 	// Convert the FlakeID struct to JSON

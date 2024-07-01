@@ -20,11 +20,11 @@ Features
 
 ## 128-bit Flake ID Structure
 
-| Field     | Description                  | Size     |
-|-----------|------------------------------|----------|
-| Timestamp | Time in milliseconds         | 64 bits  |
-| WorkerID  | Worker or node identifier    | 48 bits  |
-| Sequence  | Unique sequence number       | 16 bits  |
+| Field     | Description                         | Size     |
+|-----------|-------------------------------------|----------|
+| Timestamp | Time in milliseconds                | 64 bits  |
+| WorkerID  | Worker, node, or process identifier | 48 bits  |
+| Sequence  | Unique sequence number              | 16 bits  |
 
 ### Explanation:
 - **Timestamp**: Represents the time in milliseconds since a custom epoch. It occupies 64 bits.

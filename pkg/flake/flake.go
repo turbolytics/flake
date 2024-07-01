@@ -41,9 +41,9 @@ func IsWithin48BitsRange(value uint64) bool {
 
 // ID structure
 type ID struct {
-	Timestamp uint64 // 64 bits
-	WorkerID  uint64 // 48 bits used
-	Sequence  uint16 // 16 bits
+	Timestamp uint64 `json:"timestamp"` // 64 bits
+	WorkerID  uint64 `json:"worker_id"` // 48 bits used
+	Sequence  uint16 `json:"sequence"`  // 16 bits
 }
 
 func GeneratorWithWorkerID(workerID uint64) GeneratorOption {

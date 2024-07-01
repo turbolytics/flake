@@ -117,12 +117,12 @@ func TestGenerateFlakeID(t *testing.T) {
 	}
 
 	// Test that the string representation matches expected format
-	expectedStr1 := "000001906B975C000000001234560000"
+	expectedStr1 := "000001906B975C00-000000123456-0000"
 	if id1.String() != expectedStr1 {
 		t.Errorf("ID1 string mismatch: expected %s, got %s", expectedStr1, id1.String())
 	}
 
-	expectedStr2 := "000001906B975C000000001234560001"
+	expectedStr2 := "000001906B975C00-000000123456-0001"
 	if id2.String() != expectedStr2 {
 		t.Errorf("ID2 string mismatch: expected %s, got %s", expectedStr2, id2.String())
 	}

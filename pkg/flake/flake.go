@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 )
@@ -101,40 +102,40 @@ func (fg *Generator) GenerateFlakeID() (ID, error) {
 
 // String representation for the ID
 func (f ID) String() string {
-	return fmt.Sprintf("%016X%012X%04X", f.Timestamp, f.WorkerID, f.Sequence)
+	return fmt.Sprintf("%016X-%012X-%04X", f.Timestamp, f.WorkerID, f.Sequence)
 }
 
 func NewIDFromStr(idStr string) (ID, error) {
-	// IDFromString converts a string representation of an ID back to an ID struct.
-	if len(idStr) != 32 {
-		return ID{}, fmt.Errorf("invalid ID format: expected 32 characters, got %d", len(idStr))
+	var id ID
+
+	// Split the string by the dashes
+	parts := strings.Split(idStr, "-")
+	if len(parts) != 3 {
+		return id, fmt.Errorf("invalid ID format: %s", idStr)
 	}
 
-	// Parse the components of the ID
-	timestampStr := idStr[:16]
-	workerIDStr := idStr[16:28]
-	sequenceStr := idStr[28:32]
-
-	// Convert hex strings to their respective integer types
-	timestamp, err := strconv.ParseUint(timestampStr, 16, 64)
+	// Parse each part
+	timestamp, err := strconv.ParseUint(parts[0], 16, 64)
 	if err != nil {
-		return ID{}, fmt.Errorf("invalid Timestamp: %s", err)
+		return id, fmt.Errorf("invalid Timestamp: %s", err)
 	}
 
-	workerID, err := strconv.ParseUint(workerIDStr, 16, 64)
+	workerID, err := strconv.ParseUint(parts[1], 16, 64)
 	if err != nil {
-		return ID{}, fmt.Errorf("invalid WorkerID: %s", err)
+		return id, fmt.Errorf("invalid WorkerID: %s", err)
 	}
 
-	sequence, err := strconv.ParseUint(sequenceStr, 16, 16)
+	sequence, err := strconv.ParseUint(parts[2], 16, 16)
 	if err != nil {
-		return ID{}, fmt.Errorf("invalid Sequence: %s", err)
+		return id, fmt.Errorf("invalid Sequence: %s", err)
 	}
 
-	// Create and return the ID struct
-	return ID{
+	// Construct the ID
+	id = ID{
 		Timestamp: timestamp,
 		WorkerID:  workerID,
 		Sequence:  uint16(sequence),
-	}, nil
+	}
+
+	return id, nil
 }

@@ -165,13 +165,6 @@ func main() {
 }
 ```
 
-To create a usage example for the `webserver` command from the `http.go` file in the [turbolytics/flake](https://github.com/turbolytics/flake) repository, we'll include the following steps in the `README.md`:
-
-1. **Starting the Webserver**: How to start the webserver using the CLI.
-2. **Interacting with the Webserver**: Using `curl` to interact with the webserver.
-3. **Expected Output**: What to expect as output from the webserver.
-
-Here's how you can structure the README section:
 
 ---
 
